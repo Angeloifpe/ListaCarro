@@ -1,0 +1,20 @@
+Das váriaaaasss partes do caarro cadaa uma vai receber um valor de peso junto com o nome
+Umas das primeiras partes do código antes de simplificar 
+
+
+class ParteIndividual implements ComponenteCarro {
+    private String nome;
+    private double peso;
+
+    public ParteIndividual(String nome, double peso) {
+        this.nome = nome;
+        this.peso = peso;
+    }
+
+    @Override
+    public String getNome() { return this.nome; }
+
+    @Override
+    public double getPeso() {
+        // Atualiza o acumulador global
+        RastreadorPeso.totalGeral += this.peso;
