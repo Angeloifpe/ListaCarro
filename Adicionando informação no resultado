@@ -1,0 +1,18 @@
+no resultado da questão, ela pede para que os resultados sejam exibidos 
+“Somando agora o peso de NOME_DA_PARTE: PESO_DA_PARTE. Total
+parcial: SOMA_PARCIAL”
+para ser adicionado no código na hora de exibir então a modificação precisa ficar aassim
+
+ System.out.printf("Somando agora o peso de %s: %.1f. Total parcial: %.1f%n", 
+                this.getNome(), this.peso, RastreadorPeso.totalGeral);
+        
+        return this.peso;
+
+
+Resultados com valores livres que eu utilizei 
+a print vai ficar assim
+
+ Somando agora o peso de Rodas: 60.0. Total parcial: 210.0
+Somando agora o peso de Suspensão: 40.0. Total parcial: 250.0
+Somando agora o peso de Portas: 100.0. Total parcial: 350.0
+Somando agora o peso de Capô: 20.0. Total parcial: 370.0
