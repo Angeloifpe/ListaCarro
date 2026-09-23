@@ -1,0 +1,78 @@
+CONCLUSÃO
+encontrei problemas de arquivo na minha IDE que não estava sabendo como corrigir e solicitei a ajuda da ia para simplificar como solicitado na questão 
+
+Segunda parte da simplificação do código com ia 
+
+Comentários no código para visualização
+
+// 1. A Interface Comum
+interface ComponenteCarro {
+    double getPeso();
+}
+
+// Classe auxiliar para manter o total acumulado das mensagens
+class Acumulador {
+    static double totalParcial = 0;
+}
+
+// 2. A Folha (Parte Individual)
+class ParteIndividual implements ComponenteCarro {
+    private String nome;
+    private double peso;
+
+    public ParteIndividual(String nome, double peso) {
+        this.nome = nome;
+        this.peso = peso;
+    }
+
+    @Override
+    public double getPeso() {
+        Acumulador.totalParcial += this.peso;
+        System.out.println("Somando agora o peso de " + this.nome + ": " + this.peso + ". Total parcial: " + Acumulador.totalParcial);
+        return this.peso;
+    }
+}
+
+// 3. O Composto (Grupo de Peças)
+class ParteComposta implements ComponenteCarro {
+    private ComponenteCarro parte1;
+    private ComponenteCarro parte2;
+
+    public ParteComposta(ComponenteCarro p1, ComponenteCarro p2) {
+        this.parte1 = p1;
+        this.parte2 = p2;
+    }
+
+    @Override
+    public double getPeso() {
+        // Delega o cálculo recursivamente para as subpartes
+        return parte1.getPeso() + parte2.getPeso();
+    }
+}
+
+// 4. Execução simples
+public class Main {
+    public static void main(String[] args) {
+        // Criando partes do Trem de Força
+        ComponenteCarro motor = new ParteIndividual("Motor", 150);
+        ComponenteCarro rodas = new ParteIndividual("Rodas", 60);
+        ComponenteCarro tremDeForca = new ParteComposta(motor, rodas);
+
+        // Criando o Chassi
+        ComponenteCarro suspensao = new ParteIndividual("Suspensão", 40);
+        ComponenteCarro chassi = new ParteComposta(tremDeForca, suspensao);
+
+        // Criando a Carroceria
+        ComponenteCarro portas = new ParteIndividual("Portas", 100);
+        ComponenteCarro capo = new ParteIndividual("Capô", 20);
+        ComponenteCarro carroceria = new ParteComposta(portas, capo);
+
+        // Criando o Carro completo
+        ComponenteCarro carro = new ParteComposta(chassi, carroceria);
+
+        // Disparando o cálculo
+        carro.getPeso();
+    }
+}
+
+
