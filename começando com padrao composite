@@ -1,0 +1,2 @@
+Começando o problema e utilizando como pede na questão o padrao
+O padrão Composite é perfeito para este problema, pois ele permite tratar objetos individuais, como um motor ou uma porta,  e composições de objetos, como o chassi ou o próprio carro, de maneira uniforme através de uma interface comum.
