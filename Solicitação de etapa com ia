@@ -1,0 +1,127 @@
+O código precisa ser simnples então solicitei a uma ia para reescrever o código de forma mais simples
+Primeria etapa de solicitação da ia (1/2)
+
+codigo antes 
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+// 1. Interface Comum (Component)
+interface ComponenteCarro {
+    String getNome();
+    double getPeso();
+}
+
+// Classe Utilitária para rastrear o total geral acumulado nas impressões
+class RastreadorPeso {
+    public static double totalGeral = 0;
+}
+
+// 2. Classe para Peças Individuais (Leaf / Folha)
+class ParteIndividual implements ComponenteCarro {
+    private String nome;
+    private double peso;
+
+    public ParteIndividual(String nome, double peso) {
+        this.nome = nome;
+        this.peso = peso;
+    }
+
+    @Override
+    public String getNome() { return this.nome; }
+
+    @Override
+    public double getPeso() {
+        // Atualiza o acumulador global
+        RastreadorPeso.totalGeral += this.peso;
+        
+        // Imprime a mensagem exatamente no formato solicitado
+        System.out.printf("Somando agora o peso de %s: %.1f. Total parcial: %.1f%n", 
+                this.getNome(), this.peso, RastreadorPeso.totalGeral);
+        
+        return this.peso;
+    }
+}
+
+// 3. Classe para Conjuntos de Peças (Composite / Composto)
+class ParteComposta implements ComponenteCarro {
+    private String nome;
+    private List<ComponenteCarro> subPartes = new ArrayList<>();
+
+    public ParteComposta(String nome) {
+        this.nome = nome;
+    }
+
+    public void adicionar(ComponenteCarro parte) {
+        subPartes.add(parte);
+    }
+
+    @Override
+    public String getNome() { return this.nome; }
+
+    @Override
+    public double getPeso() {
+        double pesoDoGrupo = 0;
+        
+        // Dispara o cálculo recursivo dos filhos (eles vão imprimir suas próprias mensagens)
+        for (ComponenteCarro parte : subPartes) {
+            pesoDoGrupo += parte.getPeso();
+        }
+        
+        // Nota: O peso dos filhos já foi somado ao totalGeral pelas folhas.
+        // Se você quiser notificar também quando o grupo inteiro terminar de ser computado,
+        // descomente as linhas abaixo:
+        //
+        // System.out.printf("Somando agora o peso do conjunto %s: %.1f. Total parcial: %.1f%n", 
+        //         this.getNome(), pesoDoGrupo, RastreadorPeso.totalGeral);
+        
+        return pesoDoGrupo;
+    }
+}
+
+// 4. Execução do Programa
+public class Main {
+    public static void main(String[] args) {
+        // Reinicia o rastreador antes de começar
+        RastreadorPeso.totalGeral = 0;
+
+        // --- TREM DE FORÇA ---
+        ParteComposta tremDeForca = new ParteComposta("Trem de Força");
+        tremDeForca.adicionar(new ParteIndividual("Motor", 180.0));
+        tremDeForca.adicionar(new ParteIndividual("Transmissão", 75.0));
+        tremDeForca.adicionar(new ParteIndividual("Diferencial", 45.0));
+        tremDeForca.adicionar(new ParteIndividual("Roda Dianteira Esquerda", 18.0));
+        tremDeForca.adicionar(new ParteIndividual("Roda Dianteira Direita", 18.0));
+        tremDeForca.adicionar(new ParteIndividual("Roda Traseira Esquerda", 18.0));
+        tremDeForca.adicionar(new ParteIndividual("Roda Traseira Direita", 18.0));
+
+        // --- CHASSI ---
+        ParteComposta chassi = new ParteComposta("Chassi");
+        chassi.adicionar(tremDeForca); 
+        chassi.adicionar(new ParteIndividual("Suspensão", 65.0));
+
+        // --- CARROCERIA ---
+        ParteComposta carroceria = new ParteComposta("Carroceria");
+        carroceria.adicionar(new ParteIndividual("Para-lamas", 30.0));
+        carroceria.adicionar(new ParteIndividual("Portas", 120.0));
+        carroceria.adicionar(new ParteIndividual("Painéis", 95.0));
+        carroceria.adicionar(new ParteIndividual("Porta-malas", 40.0));
+        carroceria.adicionar(new ParteIndividual("Capô", 25.0));
+
+        // --- CARRO COMPLETO ---
+        ParteComposta carro = new ParteComposta("Carro");
+        carro.adicionar(chassi);
+        carro.adicionar(carroceria);
+
+        // --- DISPARANDO O CÁLCULO ---
+        System.out.println("=== INICIANDO A CONTABILIZAÇÃO DO PESO ===");
+        double pesoFinal = carro.getPeso();
+        System.out.println("==========================================");
+        
+        System.out.printf("%nPESO FINAL DO CARRO: %.1f kg%n", pesoFinal);
+    }
+}
+
+Pronpt utilizado  : joguei o código na ia e pedi para que addicionasse uma caraacterística para exibiçãao descrito no commit anterior
